@@ -13,7 +13,15 @@ class TaskAwareAgent:
     # ---------------------------------------------------------------------
     # Public helpers -------------------------------------------------------
     # ---------------------------------------------------------------------
-    def handle(self, query: str, customer_proxy, task_type: str, duration_est_sec: int):
+    def handle(
+        self,
+        query: str,
+        customer_proxy,
+        task_type: str,
+        duration_est_sec: int,
+        context: str | None = None,
+        metadata: dict | None = None,
+    ):
         """Send *query* to the wrapped LLM assistant.  We:
         1. Print a small banner so you can watch the sim run.
         2. Time the round‑trip to produce *actual* duration.
@@ -26,7 +34,11 @@ class TaskAwareAgent:
         start_time = datetime.now()
         # We prefix the user query with context only visible to the assistant
         # (makes the prompt a bit richer & lets us see the ETA up front)
-        prompt = f"[{task_type} – est {duration_est_sec}s]\n\n{query}"
+        prompt_parts = [f"[{task_type} – est {duration_est_sec}s]"]
+        if context:
+            prompt_parts.append(f"\n[Retrieved Context]\n{context}")
+        prompt_parts.append(f"\n{query}")
+        prompt = "\n".join(prompt_parts)
         result = customer_proxy.initiate_chat(
             message=prompt,
             recipient=self.agent,
@@ -42,12 +54,19 @@ class TaskAwareAgent:
         # -----------------------------------------------------------------
         # Persist lightweight trace (for dashboards later) -----------------
         # -----------------------------------------------------------------
+        merged_metadata = dict(metadata or {})
+        merged_metadata.update({
+            "role": self.role,
+            "actual_sec": round(actual_sec, 2),
+            "cost": cost,
+        })
         log_interaction(
             agent_name=self.agent.name,
             query=query,
             response=result.summary,
             escalated_to=None,
             confidence=None,
+            metadata=merged_metadata,
         )
 
         return result.summary
@@ -61,13 +80,25 @@ class TaskAwareGroupChat:
         self.role = role
         self.hourly_wage = hourly_wage
 
-    def handle(self, query: str, customer_proxy, task_type: str, duration_est_sec: int):
+    def handle(
+        self,
+        query: str,
+        customer_proxy,
+        task_type: str,
+        duration_est_sec: int,
+        context: str | None = None,
+        metadata: dict | None = None,
+    ):
         print(f"🤝 GroupChat handling task: {task_type} (est {duration_est_sec}s)")
 
         start_time = datetime.now()
+        prompt_parts = [f"[{task_type} – est {duration_est_sec}s]"]
+        if context:
+            prompt_parts.append(f"\n[Retrieved Context]\n{context}")
+        prompt_parts.append(f"\n{query}")
         result = customer_proxy.initiate_chat(
             self.manager,
-            message=f"[{task_type} – est {duration_est_sec}s]\n\n{query}",
+            message="\n".join(prompt_parts),
         )
         end_time = datetime.now()
 
@@ -75,12 +106,19 @@ class TaskAwareGroupChat:
         cost = round(actual_sec / 3600 * self.hourly_wage, 2)
         print(f"💬 GroupChat completed in {actual_sec:.1f}s – cost ${cost:.2f}")
 
+        merged_metadata = dict(metadata or {})
+        merged_metadata.update({
+            "role": self.role,
+            "actual_sec": round(actual_sec, 2),
+            "cost": cost,
+        })
         log_interaction(
             agent_name="GroupChatManager",
             query=query,
             response=result.summary,
             escalated_to=None,
             confidence=None,
+            metadata=merged_metadata,
         )
 
         return result.summary
