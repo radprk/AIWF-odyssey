@@ -1,0 +1,19 @@
+-------------------------for the Call Center Simulation-----------------------------------------
+1. Clone the repository
+
+2. Create a virtual environment and run 
+	pip install -r requirements.txt
+
+3. Navigate to C:\Users\[your-directory]\aiwf_simulation\AIWF-odyssey\autogen_agents
+
+4. run python main.py
+
+-----------------------------for the Mesa Simulation---------------------------------------------
+
+
+1. Navigate to C:\Users\[your-directory]\aiwf_simulation\AIWF-odyssey\simulations
+
+2. run the following command:
+
+streamlit run streamlit_simulation.py
+

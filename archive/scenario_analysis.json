@@ -1,0 +1,68 @@
+{
+    "Worker_HighAdapt": {
+        "final_values": {
+            "Employment": 0.89,
+            "Average_Skill": 1.7474086331097718,
+            "Worker_Wellbeing": 0.9106000000000001,
+            "Corporate_Profit": 0.660000000000001,
+            "Automation_Level": 1.700000000000001
+        },
+        "employment_change": -0.10999999999999999,
+        "skill_growth": 1.1740000000000008
+    },
+    "Worker_LowAdapt": {
+        "final_values": {
+            "Employment": 0.45,
+            "Average_Skill": 2.992895911018087,
+            "Worker_Wellbeing": 0.5050000000000004,
+            "Corporate_Profit": 6.9775000000000045,
+            "Automation_Level": 0.7000000000000003
+        },
+        "employment_change": -0.55,
+        "skill_growth": 2.428
+    },
+    "Corp_AggressiveAuto": {
+        "final_values": {
+            "Employment": 0.52,
+            "Average_Skill": 2.9759108117330983,
+            "Worker_Wellbeing": 0.5680000000000005,
+            "Corporate_Profit": 7.122400000000003,
+            "Automation_Level": 0.9000000000000004
+        },
+        "employment_change": -0.48,
+        "skill_growth": 2.403000000000001
+    },
+    "Corp_HumanCentric": {
+        "final_values": {
+            "Employment": 0.67,
+            "Average_Skill": 1.9737366189182768,
+            "Worker_Wellbeing": 0.7030000000000001,
+            "Corporate_Profit": 3.9307000000000025,
+            "Automation_Level": 1.0000000000000007
+        },
+        "employment_change": -0.32999999999999996,
+        "skill_growth": 1.3930000000000011
+    },
+    "Gov_ProWorker": {
+        "final_values": {
+            "Employment": 0.64,
+            "Average_Skill": 2.4233356291654924,
+            "Worker_Wellbeing": 0.6760000000000003,
+            "Corporate_Profit": 6.775000000000004,
+            "Automation_Level": 0.9000000000000004
+        },
+        "employment_change": -0.36,
+        "skill_growth": 1.8029999999999995
+    },
+    "Gov_LaissezFaire": {
+        "final_values": {
+            "Employment": 0.64,
+            "Average_Skill": 2.4067256757299718,
+            "Worker_Wellbeing": 0.676,
+            "Corporate_Profit": 6.5770000000000035,
+            "Automation_Level": 0.9000000000000004
+        },
+        "employment_change": -0.36,
+        "skill_growth": 1.8319999999999996
+    }
+}

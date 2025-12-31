@@ -1,0 +1,60 @@
+
+Q: Why did my transaction fail?
+A: Common reasons include insufficient funds, incorrect account details, expired card, or a temporary network error. Transactions may also fail if the daily transfer limit is exceeded or fraud detection systems flag it.
+
+Q: How long does a wire transfer take?
+A: Domestic wire transfers typically settle within 24 hours on business days. International wires may take 2–5 business days, depending on the recipient bank, country, and currency conversion.
+
+Q: What is a margin call?
+A: A margin call occurs when your account's equity falls below the required maintenance margin. You must deposit additional funds or liquidate assets to bring your account back into compliance. Failure to act may result in automatic liquidation.
+
+Q: Why was I charged a $15 fee?
+A: Fees may be applied for services such as wire transfers, account maintenance, paper statements, inactivity, or insufficient funds. Check your account’s fee schedule in the “Statements & Fees” section or contact support.
+
+Q: How do I dispute a charge?
+A: Submit a dispute within 60 days of the transaction. Provide the transaction ID, date, amount, and the reason for dispute. A specialist will investigate and respond within 5–10 business days.
+
+Q: Why didn't my trade execute?
+A: Your order may not have matched market conditions. Limit orders execute only if your price is met. Market volatility, trading halts, or order type mismatches can also cause failure to execute.
+
+Q: Can I cancel a pending transfer?
+A: ACH transfers may be cancelled before the end-of-day processing window (typically by 5 PM EST). Wire transfers are final once submitted. Contact support immediately to request cancellation.
+
+Q: When will funds from my stock sale be available?
+A: Equity trades follow a T+2 settlement rule. Proceeds are available two business days after the trade date, unless subject to holds or regulatory review.
+
+Q: How do I update my account information?
+A: Log in to your dashboard. Go to “Account Settings” to update your contact details, linked bank account, tax forms, or communication preferences. Changes may require identity verification.
+
+Q: What should I do if I suspect fraud?
+A: Immediately freeze your account through the mobile app or call our fraud hotline. Submit a fraud report including recent transactions. Our investigation typically takes 7–14 business days.
+
+Q: Why is my balance different from what I expected?
+A: Your available balance may differ from your total balance due to pending transactions, unsettled trades, or held funds. Check “Pending Activity” and “Trade Settlement” in your account.
+
+Q: How do I retrieve a lost statement or tax form?
+A: Go to “Documents > Statements & Tax” in your dashboard. You can download PDF copies of monthly statements, 1099 forms, and annual summaries. Contact support if a document is missing.
+
+Q: Are my funds insured?
+A: Yes, cash balances are insured by the FDIC up to $250,000 when held in our partner bank sweep program. Securities are protected by SIPC up to $500,000 in case of brokerage failure, but not against investment losses.
+
+Q: Can I open a joint account or transfer assets to a trust?
+A: Yes. Select “Joint Account” or “Trust” during the onboarding process or contact our onboarding team. Additional documentation such as trust agreements or notarized ID may be required.
+
+Q: Why was my account restricted or flagged?
+A: Common reasons include suspicious activity, violation of margin requirements, expired identity documents, or regulatory review. Check your messages or contact the Compliance Desk for assistance.
+
+Q: What’s the difference between buying power and cash balance?
+A: Cash balance reflects settled funds. Buying power includes leverage or margin if enabled. Some trades (e.g., options) require more stringent capital availability, and using unsettled funds may result in good faith violations.
+
+Q: How can I enable or disable margin trading?
+A: Go to “Account Settings > Trading Preferences” and toggle margin trading. Approval is subject to eligibility criteria and credit checks. Disabling margin may require account adjustments or early settlement of trades.
+
+Q: How do I report a deceased account holder?
+A: Contact our estate team at estate-support@example.com. Required documents typically include a death certificate, legal representative ID, and court-issued letters of administration.
+
+Q: What is a good faith violation?
+A: It occurs when you sell a security bought with unsettled funds. Repeated violations may lead to account restrictions. To avoid this, wait for the initial trade to fully settle before using those funds.
+
+Q: Why was I charged a margin interest fee?
+A: If you borrow funds to trade (buying on margin), interest is charged on the borrowed amount daily and billed monthly. Check “Margin Activity” in your statements for a breakdown.
