@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import datetime
 import json
 from pathlib import Path
+from typing import Any
 
 _LOG_PATH = Path("data/logs")
 _LOG_PATH.mkdir(parents=True, exist_ok=True)
@@ -13,7 +14,8 @@ def log_interaction(agent_name: str,
                     query: str,
                     response: str,
                     escalated_to: str | None = None,
-                    confidence: float | None = None):
+                    confidence: float | None = None,
+                    metadata: dict[str, Any] | None = None):
     record = {
         "ts": datetime.utcnow().isoformat(timespec="seconds") + "Z",
         "query": query,
@@ -21,6 +23,8 @@ def log_interaction(agent_name: str,
         "escalated_to": escalated_to,
         "confidence": confidence,
     }
+    if metadata:
+        record["metadata"] = metadata
     agent_memory[agent_name].append(record)
 
     # append‑only JSONL on disk for long‑running sims
