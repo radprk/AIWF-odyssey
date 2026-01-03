@@ -104,6 +104,7 @@ def get_ollama_config(model_name="mistral"):
             "model": model_name,
             "base_url": "http://localhost:11434/v1",
             "api_key": "ollama",
+            "price": [0, 0],
         }],
         "temperature": 0.3,
     }

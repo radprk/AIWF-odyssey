@@ -1,6 +1,9 @@
 # faq_loader.py  
 from pathlib import Path
-from langchain_community.embeddings import HuggingFaceEmbeddings
+try:
+    from langchain_huggingface import HuggingFaceEmbeddings
+except ModuleNotFoundError:  # pragma: no cover - fallback for older installs
+    from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import CharacterTextSplitter 
