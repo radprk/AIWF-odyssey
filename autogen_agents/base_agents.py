@@ -92,8 +92,6 @@ SYNTH_SYS_MSG = (
 You are a Response Synthesizer.
 Combine specialist responses into a single clear, customer-friendly reply.
 Avoid repetition and keep a professional tone.
-Use only the specialist responses; do not introduce unrelated FAQ content.
-Focus on answering the user's question directly and end with a concise next step.
 """
 )
 
@@ -279,6 +277,7 @@ def run_routed_support_flow(
         customer_proxy,
         task_type,
         int(est_sec * 1.1),
+        context=context,
         metadata={
             "task_type": task_type,
             "duration_est_sec": est_sec,
