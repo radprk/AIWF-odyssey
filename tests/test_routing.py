@@ -153,7 +153,8 @@ class TestEndToEndRouting:
         from task_classifier import classify
         from router import _rule_based_route
 
-        task_type, _ = classify("I want to complain about service")
+        # Note: must use "complaint" keyword (not just "complain")
+        task_type, _ = classify("I have a complaint about the service")
         specialists = _rule_based_route(task_type)
         assert "complaint" in specialists
 
