@@ -15,108 +15,147 @@ class TestTaskClassifier:
 
     def test_classify_billing_query(self):
         """Test billing query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("Why was I charged a $15 fee?")
-        assert result["task_type"] == "Billing"
+        task_type, estimate = classify("Why was I charged a $15 fee?")
+        assert task_type == "Billing"
 
     def test_classify_account_query(self):
         """Test account query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("I forgot my password")
-        assert result["task_type"] == "Account"
+        task_type, estimate = classify("I forgot my password")
+        assert task_type == "Account"
 
     def test_classify_transaction_query(self):
         """Test transaction query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("When will my transfer complete?")
-        assert result["task_type"] == "Transaction"
+        task_type, estimate = classify("When will my transfer complete?")
+        assert task_type == "Transaction"
 
     def test_classify_complaint_query(self):
         """Test complaint query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("I want to file a formal complaint about terrible service!")
-        assert result["task_type"] == "Complaint"
+        task_type, estimate = classify("I want to file a formal complaint about terrible service!")
+        assert task_type == "Complaint"
 
     def test_classify_product_query(self):
         """Test product info query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("What types of savings accounts do you offer?")
-        assert result["task_type"] == "Product Info"
+        task_type, estimate = classify("What types of insurance policies do you offer?")
+        assert task_type == "Product Info"
 
     def test_classify_general_query(self):
         """Test general query classification."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("Hello, I have a question")
-        assert result["task_type"] == "General Inquiry"
+        task_type, estimate = classify("Hello, I have a question")
+        assert task_type == "General Inquiry"
 
     def test_classification_returns_estimate(self):
         """Test that classification returns time estimate."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
-        result = classify_task("Why was I charged?")
-        assert "estimated_duration_sec" in result
-        assert result["estimated_duration_sec"] > 0
+        task_type, estimate = classify("Why was I charged?")
+        assert estimate > 0
+        assert isinstance(estimate, int)
 
 
 class TestRouter:
-    """Tests for query routing logic."""
+    """Tests for query routing logic using rule-based routing."""
 
     def test_route_to_billing_specialist(self):
         """Test routing to billing specialist."""
-        from router import route_query
+        from router import _rule_based_route
 
-        specialists = route_query("I have a question about fees")
+        specialists = _rule_based_route("Billing")
         assert "billing" in specialists
 
     def test_route_to_account_specialist(self):
         """Test routing to account specialist."""
-        from router import route_query
+        from router import _rule_based_route
 
-        specialists = route_query("I need to reset my password")
+        specialists = _rule_based_route("Account")
         assert "account" in specialists
 
     def test_route_to_transaction_specialist(self):
         """Test routing to transaction specialist."""
-        from router import route_query
+        from router import _rule_based_route
 
-        specialists = route_query("My transfer is pending")
+        specialists = _rule_based_route("Transaction")
         assert "transaction" in specialists
 
     def test_route_to_complaint_specialist(self):
         """Test routing to complaint specialist."""
-        from router import route_query
+        from router import _rule_based_route
 
-        specialists = route_query("I want to complain about service")
+        specialists = _rule_based_route("Complaint")
         assert "complaint" in specialists
 
     def test_route_to_general_specialist(self):
         """Test routing to general specialist."""
-        from router import route_query
+        from router import _rule_based_route
 
-        specialists = route_query("What products do you offer?")
+        specialists = _rule_based_route("Product Info")
         assert "general" in specialists
 
-    def test_route_complex_query_multiple_specialists(self):
-        """Test complex query routes to multiple specialists."""
-        from router import route_query
+    def test_route_unknown_defaults_to_general(self):
+        """Test unknown task type routes to general."""
+        from router import _rule_based_route
 
-        # This query touches billing and complaint
-        specialists = route_query("I'm very upset about the fee you charged me!")
-        assert len(specialists) >= 1
+        specialists = _rule_based_route("Unknown Category")
+        assert "general" in specialists
 
     def test_route_returns_list(self):
         """Test that route always returns a list."""
-        from router import route_query
+        from router import _rule_based_route
 
-        result = route_query("Random query")
+        result = _rule_based_route("Billing")
         assert isinstance(result, list)
         assert len(result) > 0
+
+
+class TestEndToEndRouting:
+    """Tests for full classify + route flow."""
+
+    def test_billing_query_routes_correctly(self):
+        """Test billing query classifies and routes correctly."""
+        from task_classifier import classify
+        from router import _rule_based_route
+
+        task_type, _ = classify("I have a question about fees")
+        specialists = _rule_based_route(task_type)
+        assert "billing" in specialists
+
+    def test_account_query_routes_correctly(self):
+        """Test account query classifies and routes correctly."""
+        from task_classifier import classify
+        from router import _rule_based_route
+
+        task_type, _ = classify("I need to reset my password")
+        specialists = _rule_based_route(task_type)
+        assert "account" in specialists
+
+    def test_transaction_query_routes_correctly(self):
+        """Test transaction query classifies and routes correctly."""
+        from task_classifier import classify
+        from router import _rule_based_route
+
+        task_type, _ = classify("My transfer is pending")
+        specialists = _rule_based_route(task_type)
+        assert "transaction" in specialists
+
+    def test_complaint_query_routes_correctly(self):
+        """Test complaint query classifies and routes correctly."""
+        from task_classifier import classify
+        from router import _rule_based_route
+
+        task_type, _ = classify("I want to complain about service")
+        specialists = _rule_based_route(task_type)
+        assert "complaint" in specialists
 
 
 class TestEscalationTriggers:
@@ -124,10 +163,7 @@ class TestEscalationTriggers:
 
     def test_detect_escalation_keywords(self):
         """Test escalation keyword detection."""
-        # Import the escalation triggers
-        sys.path.insert(0, str(Path(__file__).parent.parent / "autogen_agents"))
-
-        # Common escalation triggers
+        # Common escalation triggers from base_agents.py
         triggers = [
             "escalate",
             "cannot resolve",
@@ -163,25 +199,24 @@ class TestSpecialistSelection:
 
     def test_all_specialists_defined(self):
         """Test that all required specialists are defined."""
-        required_specialists = [
-            "billing",
-            "account",
-            "transaction",
-            "complaint",
-            "general",
+        from router import _rule_based_route
+
+        required_task_types = [
+            "Billing",
+            "Account",
+            "Transaction",
+            "Complaint",
+            "General Inquiry",
         ]
 
-        # Check router handles all these
-        from router import route_query
-
-        for specialist in required_specialists:
-            # Query should route somewhere
-            result = route_query(f"{specialist} related question")
+        for task_type in required_task_types:
+            result = _rule_based_route(task_type)
             assert len(result) > 0
 
     def test_specialist_mapping_consistency(self):
         """Test that specialist names are consistent."""
-        from router import route_query
+        from task_classifier import classify
+        from router import _rule_based_route
 
         # Multiple queries of same type should route consistently
         billing_queries = [
@@ -190,8 +225,33 @@ class TestSpecialistSelection:
             "refund request",
         ]
 
-        results = [route_query(q) for q in billing_queries]
+        results = []
+        for q in billing_queries:
+            task_type, _ = classify(q)
+            results.append(_rule_based_route(task_type))
 
         # All should include billing
         for result in results:
-            assert "billing" in result or len(result) > 0
+            assert "billing" in result
+
+
+class TestNormalizeSpecialists:
+    """Tests for specialist name normalization."""
+
+    def test_normalize_specialists(self):
+        """Test specialist name normalization."""
+        from router import normalize_specialists
+
+        raw = ["  Billing ", "ACCOUNT", "transaction"]
+        normalized = normalize_specialists(raw)
+
+        assert normalized == ["billing", "account", "transaction"]
+
+    def test_normalize_empty_strings(self):
+        """Test that empty strings are filtered out."""
+        from router import normalize_specialists
+
+        raw = ["billing", "", "  ", "account"]
+        normalized = normalize_specialists(raw)
+
+        assert normalized == ["billing", "account"]

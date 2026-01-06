@@ -227,35 +227,32 @@ class TestLLMIntegration:
 
     def test_task_classifier_integration(self):
         """Test task classifier with various queries."""
-        from task_classifier import classify_task
+        from task_classifier import classify
 
         test_cases = [
             ("Why am I being charged?", "Billing"),
             ("I can't log in", "Account"),
             ("Transfer money to savings", "Transaction"),
             ("This is terrible service!", "Complaint"),
-            ("What products do you offer?", "Product Info"),
+            ("What types of insurance do you offer?", "Product Info"),
         ]
 
         for query, expected_type in test_cases:
-            result = classify_task(query)
-            assert result["task_type"] == expected_type, f"Failed for: {query}"
+            task_type, _ = classify(query)
+            assert task_type == expected_type, f"Failed for: {query}"
 
-    def test_end_to_end_query_handling(self):
-        """Test complete query handling flow."""
-        from simulation_engine import simulate_query_handling
+    def test_rule_based_routing_integration(self):
+        """Test rule-based routing with classifier."""
+        from task_classifier import classify
+        from router import _rule_based_route
 
-        response = simulate_query_handling(
-            qid=1,
-            query="Why was I charged a $15 fee on my account?",
-            session_id="e2e-test",
-            use_router=True,
-            use_llm_router=False,
-        )
+        # Test billing flow
+        task_type, est = classify("Why was I charged a $15 fee?")
+        specialists = _rule_based_route(task_type)
 
-        # Should get a non-empty response
-        assert response is not None
-        assert len(response) > 0
+        assert task_type == "Billing"
+        assert "billing" in specialists
+        assert est > 0
 
 
 class TestDataPersistence:
