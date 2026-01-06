@@ -11,9 +11,8 @@ from synthetic_data import generate_queries
 from memory import log_interaction
 from voice import synthesize
 
-def _batch_demo(use_router: bool, use_llm_router: bool, enable_judge: bool,
-                session_id: str | None, voice: bool, tts_cmd: str | None,
-                tts_model: str | None, tts_voice: str | None) -> None:
+def _batch_demo(use_router: bool, use_llm_router: bool, session_id: str | None, voice: bool,
+                tts_cmd: str | None, tts_model: str | None, tts_voice: str | None) -> None:
     print("\n🚀  Running autonomous GroupChat batch …\n")
     questions = [
         "Why was I charged a $15 fee?",
@@ -40,9 +39,8 @@ def _batch_demo(use_router: bool, use_llm_router: bool, enable_judge: bool,
             )
     print("\n✅  GroupChat simulation complete!\n")
 
-def _interactive_cli(use_router: bool, use_llm_router: bool, enable_judge: bool,
-                     session_id: str | None, voice: bool, tts_cmd: str | None,
-                     tts_model: str | None, tts_voice: str | None) -> None:
+def _interactive_cli(use_router: bool, use_llm_router: bool, session_id: str | None, voice: bool,
+                     tts_cmd: str | None, tts_model: str | None, tts_voice: str | None) -> None:
     print("\n🗣️  Enter support queries (type 'exit' to quit)\n")
     qid = 1
     while True:
@@ -56,7 +54,6 @@ def _interactive_cli(use_router: bool, use_llm_router: bool, enable_judge: bool,
             session_id=session_id,
             use_router=use_router,
             use_llm_router=use_llm_router,
-            enable_judge=enable_judge,
         )
         if voice:
             audio_path = synthesize(
@@ -75,9 +72,9 @@ def _interactive_cli(use_router: bool, use_llm_router: bool, enable_judge: bool,
         qid += 1
 
 
-def _synthetic_demo(count: int, use_router: bool, use_llm_router: bool, enable_judge: bool,
-                    session_id: str | None, voice: bool, tts_cmd: str | None,
-                    tts_model: str | None, tts_voice: str | None) -> None:
+def _synthetic_demo(count: int, use_router: bool, use_llm_router: bool, session_id: str | None,
+                    voice: bool, tts_cmd: str | None, tts_model: str | None,
+                    tts_voice: str | None) -> None:
     print("\n🧪  Running synthetic batch …\n")
     questions = generate_queries(count=count)
     for i, q in enumerate(questions, 1):
@@ -87,7 +84,6 @@ def _synthetic_demo(count: int, use_router: bool, use_llm_router: bool, enable_j
             session_id=session_id,
             use_router=use_router,
             use_llm_router=use_llm_router,
-            enable_judge=enable_judge,
         )
         if voice:
             audio_path = synthesize(
@@ -110,7 +106,6 @@ if __name__ == "__main__":
     parser.add_argument("--mode", choices=["cli", "batch", "synthetic"], default="cli")
     parser.add_argument("--router", action="store_true", help="Enable router-based specialist flow")
     parser.add_argument("--llm-router", action="store_true", help="Use LLM router instead of rules")
-    parser.add_argument("--judge", action="store_true", help="Enable LLM-as-judge evaluation")
     parser.add_argument("--session-id", default=None, help="Session identifier for logs")
     parser.add_argument("--voice", action="store_true", help="Enable TTS output via Chatterbox")
     parser.add_argument("--tts-cmd", default=None, help="CLI command template for Chatterbox")
@@ -124,13 +119,13 @@ if __name__ == "__main__":
 
     print("Customer Support Simulator")
     if args.mode == "batch":
-        _batch_demo(args.router, args.llm_router, args.judge, session_id, args.voice,
+        _batch_demo(args.router, args.llm_router, session_id, args.voice,
                     args.tts_cmd, args.tts_model, args.tts_voice)
     elif args.mode == "synthetic":
-        _synthetic_demo(args.synthetic_count, args.router, args.llm_router, args.judge, session_id,
+        _synthetic_demo(args.synthetic_count, args.router, args.llm_router, session_id,
                         args.voice, args.tts_cmd, args.tts_model, args.tts_voice)
     else:
-        _interactive_cli(args.router, args.llm_router, args.judge, session_id, args.voice,
+        _interactive_cli(args.router, args.llm_router, session_id, args.voice,
                          args.tts_cmd, args.tts_model, args.tts_voice)
 
     if args.metrics:

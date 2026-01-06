@@ -3,10 +3,8 @@ from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 # from memory import log_interaction
 from sim_agents import TaskAwareGroupChat, TaskAwareAgent
 from task_classifier import classify
-from retrieval import retrieve_context, detect_industry
+from retrieval import retrieve_context
 from router import route_query
-from judge import evaluate_response
-from memory import log_interaction
 
 # ---------------------------------------------------------------------------
 # 1.  SYSTEM MESSAGES
@@ -94,8 +92,6 @@ SYNTH_SYS_MSG = (
 You are a Response Synthesizer.
 Combine specialist responses into a single clear, customer-friendly reply.
 Avoid repetition and keep a professional tone.
-Use only the specialist responses; do not introduce unrelated FAQ content.
-Focus on answering the user's question directly and end with a concise next step.
 """
 )
 
@@ -187,7 +183,6 @@ def run_support_flow(user_query: str, session_id: str | None = None) -> str:
             "duration_est_sec": est_sec,
             "session_id": session_id,
             "route": ["tiered"],
-            "industry": industry,
         },
     )
     if not _needs_escalation(reply):
@@ -205,7 +200,6 @@ def run_support_flow(user_query: str, session_id: str | None = None) -> str:
             "session_id": session_id,
             "route": ["tiered"],
             "escalated_to": "L2",
-            "industry": industry,
         },
     )
     if not _needs_escalation(reply):
@@ -223,7 +217,6 @@ def run_support_flow(user_query: str, session_id: str | None = None) -> str:
             "session_id": session_id,
             "route": ["tiered"],
             "escalated_to": "L3",
-            "industry": industry,
         },
     )
 
@@ -253,7 +246,6 @@ def run_routed_support_flow(
     user_query: str,
     session_id: str | None = None,
     use_llm_router: bool = False,
-    enable_judge: bool = False,
 ) -> str:
     specialists, task_type, est_sec = route_query(
         user_query,
@@ -262,7 +254,6 @@ def run_routed_support_flow(
         use_llm_router=use_llm_router,
     )
     context = retrieve_context(user_query, k=3)
-    industry = detect_industry(user_query)
     responses = []
     for specialist_key in specialists:
         specialist = SPECIALIST_WRAPPED.get(specialist_key, SPECIALIST_WRAPPED["general"])
@@ -277,45 +268,21 @@ def run_routed_support_flow(
                 "duration_est_sec": est_sec,
                 "route": specialists,
                 "session_id": session_id,
-                "industry": industry,
             },
         )
         responses.append((specialist_key, response))
 
     combined = "\n\n".join([f"{key.title()} Response:\n{resp}" for key, resp in responses])
-    synthesized = SYNTH_WRAPPED.handle(
+    return SYNTH_WRAPPED.handle(
         combined,
         customer_proxy,
         task_type,
         int(est_sec * 1.1),
+        context=context,
         metadata={
             "task_type": task_type,
             "duration_est_sec": est_sec,
             "route": specialists,
             "session_id": session_id,
-            "industry": industry,
         },
     )
-    if enable_judge:
-        judge_result = evaluate_response(
-            query=user_query,
-            response=synthesized,
-            context=context,
-            llm_config=get_ollama_config("mistral"),
-        )
-        log_interaction(
-            agent_name="Response_Judge",
-            query=user_query,
-            response=synthesized,
-            escalated_to=None,
-            confidence=None,
-            metadata={
-                "task_type": task_type,
-                "duration_est_sec": est_sec,
-                "route": specialists,
-                "session_id": session_id,
-                "industry": industry,
-                "judge": judge_result.to_dict(),
-            },
-        )
-    return synthesized

@@ -22,8 +22,7 @@ agent_pool = {tier: AGENT_TIERS[tier]["count"] for tier in AGENT_TIERS}
 call_log = []
 
 def simulate_query_handling(query_id, query_text, complexity="medium", session_id: str | None = None,
-                            use_router: bool = False, use_llm_router: bool = False,
-                            enable_judge: bool = False):
+                            use_router: bool = False, use_llm_router: bool = False):
     start_time = datetime.now()
     print(f"\n Handling Query {query_id}: {query_text} [{complexity}]")
 
@@ -45,7 +44,6 @@ def simulate_query_handling(query_id, query_text, complexity="medium", session_i
                 query_text,
                 session_id=session_id,
                 use_llm_router=use_llm_router,
-                enable_judge=enable_judge,
             )
         else:
             response = run_support_flow(query_text, session_id=session_id)

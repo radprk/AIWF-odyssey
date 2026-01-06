@@ -29,11 +29,6 @@ SCENARIOS = {
         "How does your premium account work?",
         "Do you offer purchase protection?",
     ],
-    "healthcare": [
-        "How do I update my insurance information?",
-        "Why was my claim denied?",
-        "Can I get a copy of my medical records?",
-    ],
     "sales": [
         "Can I upgrade to the premium plan?",
         "I'd like to add another line of service.",

@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import os
 from pathlib import Path
+import shlex
 import subprocess
 from typing import Optional
 
@@ -10,12 +11,6 @@ from typing import Optional
 def _ensure_output_path(output_dir: Path, stem: str) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir / f"{stem}.wav"
-
-def _escape_for_shell(text: str) -> str:
-    if os.name == "nt":
-        return subprocess.list2cmdline([text])
-    escaped = text.replace("'", "'\\''")
-    return f"'{escaped}'"
 
 
 def synthesize(
@@ -36,13 +31,8 @@ def synthesize(
     output_path = _ensure_output_path(Path(output_dir), filename_stem)
 
     if command:
-        formatted = command.format(
-            text=_escape_for_shell(text),
-            out=str(output_path),
-            model=model or "",
-            voice=voice or "",
-        )
-        subprocess.run(formatted, check=True, shell=True)
+        formatted = command.format(text=text, out=str(output_path), model=model or "", voice=voice or "")
+        subprocess.run(shlex.split(formatted), check=True)
         return output_path
 
     try:
