@@ -2,7 +2,7 @@
 import random
 import time
 from datetime import datetime
-from base_agents import run_support_flow
+from base_agents import run_support_flow, run_routed_support_flow
 from faq_loader import load_faq_database
 
 # Load FAQ grounding once globally
@@ -21,7 +21,9 @@ agent_pool = {tier: AGENT_TIERS[tier]["count"] for tier in AGENT_TIERS}
 # Global logs
 call_log = []
 
-def simulate_query_handling(query_id, query_text, complexity="medium"):
+def simulate_query_handling(query_id, query_text, complexity="medium", session_id: str | None = None,
+                            use_router: bool = False, use_llm_router: bool = False,
+                            enable_judge: bool = False):
     start_time = datetime.now()
     print(f"\n Handling Query {query_id}: {query_text} [{complexity}]")
 
@@ -38,8 +40,15 @@ def simulate_query_handling(query_id, query_text, complexity="medium"):
         agent_pool["L1"] -= 1
         print(" Routed to L1 agent...")
         time.sleep(random.gauss(AGENT_TIERS["L1"]["avg_time"], 2))
-        # response = run_support_flow(augmented_query)
-        response = run_support_flow(query_text)
+        if use_router:
+            response = run_routed_support_flow(
+                query_text,
+                session_id=session_id,
+                use_llm_router=use_llm_router,
+                enable_judge=enable_judge,
+            )
+        else:
+            response = run_support_flow(query_text, session_id=session_id)
 
         agent_pool["L1"] += 1
     else:
@@ -53,7 +62,7 @@ def simulate_query_handling(query_id, query_text, complexity="medium"):
             agent_pool["L2"] -= 1
             print(" Escalated to L2 agent...")
             time.sleep(random.gauss(AGENT_TIERS["L2"]["avg_time"], 2))
-            response = run_support_flow(augmented_query)
+            response = run_support_flow(query_text, session_id=session_id)
             agent_pool["L2"] += 1
 
             if "escalate" in response.lower():
@@ -61,7 +70,7 @@ def simulate_query_handling(query_id, query_text, complexity="medium"):
                     agent_pool["L3"] -= 1
                     print("🚨 Escalated to L3 expert...")
                     time.sleep(random.gauss(AGENT_TIERS["L3"]["avg_time"], 2))
-                    response = run_support_flow(augmented_query)
+                    response = run_support_flow(query_text, session_id=session_id)
                     agent_pool["L3"] += 1
                 else:
                     response += "\n[L3 unavailable, please try again later.]"
@@ -74,6 +83,7 @@ def simulate_query_handling(query_id, query_text, complexity="medium"):
     call_log.append({
         "id": query_id,
         "query": query_text,
+        "session_id": session_id,
         "start": start_time,
         "end": end_time,
         "duration": elapsed,

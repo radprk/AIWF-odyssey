@@ -1,0 +1,11 @@
+Q: Why is my transfer pending?
+A: ACH transfers may be pending due to fraud checks, incorrect routing details, or bank processing windows (typically 1–3 business days). For wire transfers, status is usually available within 24 hours on business days.
+
+Q: How do I dispute a card charge?
+A: Submit a dispute within 60 days of the transaction with the transaction ID, date, amount, and reason. A specialist will review and respond within 5–10 business days.
+
+Q: Why was I charged a fee?
+A: Fees may be applied for wire transfers, paper statements, inactivity, or insufficient funds. Review your fee schedule in “Statements & Fees.”
+
+Q: How long do deposits take to clear?
+A: Deposits can be subject to holds. Standard ACH deposits typically clear in 1–3 business days; international transfers can take 2–5 business days.
