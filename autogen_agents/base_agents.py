@@ -170,6 +170,7 @@ def _needs_escalation(txt: str) -> bool:
 def run_support_flow(user_query: str, session_id: str | None = None) -> str:
     """1‑on‑1 tiered support (L1→L2→L3)."""
     task_type, est_sec = classify(user_query)
+    industry = detect_industry(user_query)
 
     # --- L1 ---------------------------------------------------------------
     reply = L1_WRAPPED.handle(
