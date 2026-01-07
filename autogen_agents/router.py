@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Iterable
+from typing import Iterable, TYPE_CHECKING
 
-from autogen import AssistantAgent, UserProxyAgent
+# Lazy import for autogen to allow demo usage without full installation
+if TYPE_CHECKING:
+    from autogen import AssistantAgent, UserProxyAgent
+
 from task_classifier import classify
 
 
@@ -18,7 +21,9 @@ Keep the list short (1-2 items).
 """
 
 
-def get_router_agent(llm_config) -> AssistantAgent:
+def get_router_agent(llm_config):
+    """Get the router agent. Requires autogen to be installed."""
+    from autogen import AssistantAgent
     return AssistantAgent("Router", system_message=ROUTER_SYS_MSG, llm_config=llm_config)
 
 
@@ -55,7 +60,7 @@ def _parse_router_response(raw: str) -> list[str]:
 def route_query(
     query: str,
     llm_config: dict,
-    customer_proxy: UserProxyAgent,
+    customer_proxy: "UserProxyAgent",
     use_llm_router: bool = False,
 ) -> tuple[list[str], str, int]:
     task_type, est_sec = classify(query)
