@@ -1,0 +1,126 @@
+{
+  "title": "Account Types and Features",
+  "products": [
+    {
+      "name": "Basic Checking",
+      "type": "checking",
+      "minimum_balance": 0,
+      "monthly_fee": 15.00,
+      "fee_waiver_conditions": "$500 minimum balance OR direct deposit",
+      "interest_rate": 0.0,
+      "features": [
+        "Free debit card",
+        "Free online banking",
+        "Free bill pay",
+        "Mobile check deposit",
+        "2 free out-of-network ATM withdrawals per month"
+      ],
+      "limitations": [
+        "No interest earned",
+        "Paper statements cost $5/month"
+      ],
+      "best_for": "Everyday banking needs with low balance requirements"
+    },
+    {
+      "name": "Premium Checking",
+      "type": "checking",
+      "minimum_balance": 2500,
+      "monthly_fee": 25.00,
+      "fee_waiver_conditions": "$2,500 minimum balance OR $5,000 combined deposits",
+      "interest_rate": 0.05,
+      "features": [
+        "All Basic Checking features",
+        "Unlimited free ATM withdrawals",
+        "2 free domestic wires per month",
+        "1 free international wire per month",
+        "Free checks",
+        "Priority customer service line",
+        "No foreign transaction fees"
+      ],
+      "limitations": [
+        "Higher minimum balance requirement"
+      ],
+      "best_for": "Customers who maintain higher balances and need wire transfers"
+    },
+    {
+      "name": "High-Yield Savings",
+      "type": "savings",
+      "minimum_balance": 100,
+      "monthly_fee": 0,
+      "fee_waiver_conditions": "No monthly fee",
+      "interest_rate": 4.25,
+      "features": [
+        "Competitive APY",
+        "FDIC insured up to $250,000",
+        "Free transfers to linked checking",
+        "No minimum balance to earn interest",
+        "Automatic savings tools"
+      ],
+      "limitations": [
+        "6 withdrawal limit per month (federal regulation)",
+        "No debit card access"
+      ],
+      "best_for": "Building emergency fund or saving for goals"
+    },
+    {
+      "name": "Money Market Account",
+      "type": "money_market",
+      "minimum_balance": 1000,
+      "monthly_fee": 10.00,
+      "fee_waiver_conditions": "$1,000 minimum balance",
+      "interest_rate": 3.75,
+      "features": [
+        "Check writing privileges",
+        "Debit card access",
+        "Tiered interest rates (higher balance = higher rate)",
+        "FDIC insured"
+      ],
+      "limitations": [
+        "6 withdrawal limit per month",
+        "Lower rate than savings for small balances"
+      ],
+      "best_for": "Higher balances with need for occasional access"
+    },
+    {
+      "name": "Brokerage Account",
+      "type": "investment",
+      "minimum_balance": 0,
+      "monthly_fee": 0,
+      "fee_waiver_conditions": "No monthly fee",
+      "interest_rate": 0,
+      "features": [
+        "Commission-free stock and ETF trades",
+        "Options trading ($0.65 per contract)",
+        "Margin available (with approval)",
+        "Fractional shares",
+        "SIPC protected up to $500,000"
+      ],
+      "limitations": [
+        "Investment risk - you can lose money",
+        "Margin trading requires approval and carries additional risk",
+        "Pattern day trading rules apply"
+      ],
+      "best_for": "Long-term investing and trading"
+    },
+    {
+      "name": "IRA (Traditional/Roth)",
+      "type": "retirement",
+      "minimum_balance": 0,
+      "monthly_fee": 0,
+      "fee_waiver_conditions": "No monthly fee",
+      "interest_rate": 0,
+      "features": [
+        "Tax-advantaged retirement savings",
+        "Same investment options as brokerage",
+        "Automatic contribution options",
+        "No annual account fee"
+      ],
+      "limitations": [
+        "Annual contribution limits ($7,000 for 2024, $8,000 if 50+)",
+        "Early withdrawal penalties may apply",
+        "Required minimum distributions (Traditional IRA)"
+      ],
+      "best_for": "Long-term retirement savings"
+    }
+  ]
+}

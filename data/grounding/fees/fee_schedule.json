@@ -1,0 +1,86 @@
+{
+  "title": "Account Fee Schedule",
+  "effective_date": "2024-01-01",
+  "items": [
+    {
+      "fee_name": "Monthly Maintenance Fee",
+      "amount": 15.00,
+      "currency": "USD",
+      "conditions": "Charged when account balance falls below $500 minimum. Waived for accounts with $500+ average daily balance or direct deposit.",
+      "waiver_options": ["Maintain $500 minimum balance", "Set up direct deposit", "Link to qualifying credit card"],
+      "frequency": "monthly"
+    },
+    {
+      "fee_name": "Wire Transfer Fee - Domestic",
+      "amount": 25.00,
+      "currency": "USD",
+      "conditions": "Per outgoing domestic wire transfer. Incoming wires are free.",
+      "waiver_options": ["Premium account holders get 2 free per month"],
+      "frequency": "per_transaction"
+    },
+    {
+      "fee_name": "Wire Transfer Fee - International",
+      "amount": 45.00,
+      "currency": "USD",
+      "conditions": "Per outgoing international wire transfer. Additional correspondent bank fees may apply.",
+      "waiver_options": ["VIP account holders get 1 free per month"],
+      "frequency": "per_transaction"
+    },
+    {
+      "fee_name": "Overdraft Fee",
+      "amount": 35.00,
+      "currency": "USD",
+      "conditions": "Charged when account is overdrawn. Maximum 3 overdraft fees per day.",
+      "waiver_options": ["Link savings account for overdraft protection ($10 transfer fee instead)", "Opt out of overdraft coverage"],
+      "frequency": "per_occurrence"
+    },
+    {
+      "fee_name": "Returned Item Fee (NSF)",
+      "amount": 35.00,
+      "currency": "USD",
+      "conditions": "Charged when a check or ACH payment is returned due to insufficient funds.",
+      "waiver_options": [],
+      "frequency": "per_occurrence"
+    },
+    {
+      "fee_name": "Stop Payment Fee",
+      "amount": 30.00,
+      "currency": "USD",
+      "conditions": "Per stop payment request on checks or recurring payments.",
+      "waiver_options": ["Online stop payments are $15"],
+      "frequency": "per_request"
+    },
+    {
+      "fee_name": "Paper Statement Fee",
+      "amount": 5.00,
+      "currency": "USD",
+      "conditions": "Charged for mailed paper statements.",
+      "waiver_options": ["Switch to e-statements (free)"],
+      "frequency": "monthly"
+    },
+    {
+      "fee_name": "Account Inactivity Fee",
+      "amount": 10.00,
+      "currency": "USD",
+      "conditions": "Charged after 12 months of no account activity.",
+      "waiver_options": ["Make any transaction to reset inactivity period"],
+      "frequency": "monthly_after_12_months"
+    },
+    {
+      "fee_name": "ATM Fee - Out of Network",
+      "amount": 3.00,
+      "currency": "USD",
+      "conditions": "Charged for using non-partner ATMs. Partner ATM network is free.",
+      "waiver_options": ["Use partner ATMs", "Premium accounts get 4 fee rebates per month"],
+      "frequency": "per_transaction"
+    },
+    {
+      "fee_name": "Expedited Card Replacement",
+      "amount": 25.00,
+      "currency": "USD",
+      "conditions": "For rush delivery of replacement debit card (2-3 business days). Standard replacement is free (7-10 days).",
+      "waiver_options": [],
+      "frequency": "per_request"
+    }
+  ]
+}
