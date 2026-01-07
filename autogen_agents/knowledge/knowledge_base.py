@@ -99,7 +99,7 @@ class KnowledgeBase:
             return
 
         from langchain_community.vectorstores import FAISS
-        from langchain.schema import Document
+        from langchain_core.documents import Document
 
         # Convert to LangChain documents
         lc_docs = [
